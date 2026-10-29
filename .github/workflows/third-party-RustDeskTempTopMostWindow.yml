@@ -47,9 +47,14 @@ jobs:
 
         # Build. commit 53b548a5398624f7149a382000397993542ad796 is tag v0.3
       - name: Build the project
+        env:
+          PROJECT_PATH: ${{ env.project_path }}
+          CONFIGURATION: ${{ inputs.configuration }}
+          PLATFORM: ${{ inputs.platform }}
+          TARGET_VERSION: ${{ inputs.target_version }}
         run: |
           cd RustDeskTempTopMostWindow && git checkout 53b548a5398624f7149a382000397993542ad796
-          msbuild ${{ env.project_path }} -p:Configuration=${{ inputs.configuration }} -p:Platform=${{ inputs.platform }} /p:TargetVersion=${{ inputs.target_version }}
+          msbuild $PROJECT_PATH -p:Configuration=$CONFIGURATION -p:Platform=$PLATFORM /p:TargetVersion=$TARGET_VERSION
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@master
